@@ -1,26 +1,31 @@
 import random
 import string
+import time
 
 def generovani_cisla():
     '''Funkce slouží k vygenerování čtyřmístného čísla'''
-    first_digit = random.choice(string.digits[1:])
-    remaining_digits = set(string.digits)
-    remaining_digits.remove(first_digit)
-    digits = [first_digit] + random.sample(remaining_digits, 3)
-    n = int(''.join(digits))
+    prvni_cislice = random.choice(string.digits[1:])
+    ostatni_cislice = set(string.digits)
+    ostatni_cislice.remove(prvni_cislice)
+    cislice = [prvni_cislice] + random.sample(ostatni_cislice, 3)
+    n = int(''.join(cislice))
     return str(n)
 
-def je_tip_validni(hracovo_cislo): 
+def je_tip_validni(hracovo_cislo):
+    '''Funkce slouží ke kontrole zdali číslo vložené uživatelem je ve správném formátu'''
     if len(hracovo_cislo) != 4:
         return False
     elif not hracovo_cislo.isdigit():
         return False
     elif len(set(hracovo_cislo)) != 4:
         return False
+    elif hracovo_cislo[0] == "0":
+        return False
     else:
         return True
     
 def logika_kontrolovani(generovane_cislo, hracovo_cislo):
+    '''Vrátí počet bulls a cows.'''
     hracovo_cislo = str(hracovo_cislo)
     bull_cow = [0,0]
     for i,j in  zip(generovane_cislo, hracovo_cislo):
@@ -30,38 +35,63 @@ def logika_kontrolovani(generovane_cislo, hracovo_cislo):
             else:
                 bull_cow[1] += 1
     return bull_cow
-            
-generovane_cislo = generovani_cisla()
-#print(generovane_cislo)
-oddelovac = "-----------------------------------------------"
-print("Hi there!")
-print(oddelovac)
-print("I've generated a random 4 digit number for you.\nLet's play a bulls and cows game.")
-print(oddelovac)
-
-smycka = True
 
 
-while smycka:
-    hracovo_cislo = input("Enter a number: ")
-    print(oddelovac)
-    if je_tip_validni(hracovo_cislo):
-        pocet_pokusu = 1
-        bull_and_cows = logika_kontrolovani(generovane_cislo,hracovo_cislo)
-        print(f"{bull_and_cows[0]} bulls, {bull_and_cows[1]} cows")
-        print(oddelovac)
-        while bull_and_cows[0] != 4:
-            hracovo_cislo = input("Enter a number: ")
-            print(oddelovac)
-            if je_tip_validni(hracovo_cislo):
-                bull_and_cows = logika_kontrolovani(generovane_cislo, hracovo_cislo)
-                print(f"{bull_and_cows[0]} bulls, {bull_and_cows[1]} cows")
-                print(oddelovac)
-                pocet_pokusu += 1
-        print(f"Correct, you've guessed the right numberin {pocet_pokusu} guesses!")
-        smycka = False
+def pluralize(bull_cow, word):
+    '''Pokud je počet cows nebo bull větší než jedna přidá "s" jako množné číslo'''
+    if bull_cow > 1:
+        words = word + "s"
+        return words
     else:
-        
-        print("Špatně zadané číslo")
-        #hracovo_cislo = input("Enter a number: ")
+        return word
+    
+def hra():
+    generovane_cislo = generovani_cisla()
+    #print(generovane_cislo)
+    oddelovac = "-----------------------------------------------"
+    print("Hi there!")
+    print(oddelovac)
+    print("I've generated a random 4 digit number for you.\nLet's play a bulls and cows game.")
+    print(oddelovac)
+
+    smycka = True
+
+    while smycka:
+        hracovo_cislo = input("Enter a number: ")
         print(oddelovac)
+        if je_tip_validni(hracovo_cislo):
+            #couting the time from the moment user entered correct number
+            start_time = time.perf_counter() 
+            pocet_pokusu = 1
+            bull_and_cows = logika_kontrolovani(generovane_cislo,hracovo_cislo)
+            print(f"{bull_and_cows[0]} {pluralize(bull_and_cows[0], 'bull')}, {bull_and_cows[1]} {pluralize(bull_and_cows[1], 'cow')}")
+            print(oddelovac)
+            while bull_and_cows[0] != 4:
+                hracovo_cislo = input("Enter a number: ")
+                print(oddelovac)
+                if je_tip_validni(hracovo_cislo):
+                    bull_and_cows = logika_kontrolovani(generovane_cislo, hracovo_cislo)
+                    print(f"{bull_and_cows[0]} {pluralize(bull_and_cows[0], 'bull')}, {bull_and_cows[1]} {pluralize(bull_and_cows[1], 'cow')}")
+                    print(oddelovac)
+                    pocet_pokusu += 1
+                else:
+                    print("Špatně zadané číslo")
+                    print(oddelovac)
+            smycka = False
+            end_time = time.perf_counter()
+            elapsed_time = end_time - start_time
+            print(f"Correct, you've guessed the right number in {pocet_pokusu} guesses and in time of {elapsed_time:.1f} seconds!")
+            
+        else:
+            print("Špatně zadané číslo")
+            print(oddelovac)
+
+while True:
+    hra()
+    restart = input("Přejete si hru spustit znovu? Ano nebo ne? ")
+    restart.lower
+    if restart == "ne":
+        print("Hra je ukončena.")
+        break
+    elif restart == "ano":
+        continue
