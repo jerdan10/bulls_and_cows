@@ -64,7 +64,7 @@ def uvod_hry():
     print(oddelovac)
     return generovane_cislo, oddelovac
     
- #spojení funkcí dohromady   
+#spojení funkcí dohromady   
 while True:
     generovane_cislo, oddelovac = uvod_hry()
     smycka = True
