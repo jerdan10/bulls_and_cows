@@ -58,7 +58,6 @@ def uvod_hry():
     Funkce slouží ke generování úvodu hry a generování náhodného čísla
     '''
     generovane_cislo = generovani_cisla()
-    print(generovane_cislo)
     oddelovac = "-----------------------------------------------"
     print("Hi there!")
     print(oddelovac)
