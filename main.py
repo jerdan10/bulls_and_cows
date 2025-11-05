@@ -42,7 +42,6 @@ def logika_kontrolovani(generovane_cislo, hracovo_cislo):
                 bull_cow[1] += 1
     return bull_cow
 
-
 def pluralize(bull_cow, word):
     '''
     Pokud je počet cows nebo bull větší než jedna přidá "s" jako množné číslo.
@@ -65,12 +64,10 @@ def uvod_hry():
     print(oddelovac)
     return generovane_cislo, oddelovac
     
-        
+ #spojení funkcí dohromady   
 while True:
     generovane_cislo, oddelovac = uvod_hry()
-
     smycka = True
-
     while smycka:
         hracovo_cislo = input("Enter a number: ")
         print(oddelovac)
