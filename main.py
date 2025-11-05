@@ -96,6 +96,7 @@ while True:
         else:
             print("Wrong entered number.")
             print(oddelovac)
+    #možnost hráče restartovat hru      
     restart = input("Would you like to try again? Yes nebo No? ")
     restart = restart.lower()
     if restart == "no":
