@@ -45,14 +45,19 @@ def pluralize(bull_cow, word):
     else:
         return word
     
-def hra():
+def uvod_hry():
     generovane_cislo = generovani_cisla()
-    #print(generovane_cislo)
+    print(generovane_cislo)
     oddelovac = "-----------------------------------------------"
     print("Hi there!")
     print(oddelovac)
     print("I've generated a random 4 digit number for you.\nLet's play a bulls and cows game.")
     print(oddelovac)
+    return generovane_cislo, oddelovac
+    
+        
+while True:
+    generovane_cislo, oddelovac = uvod_hry()
 
     smycka = True
 
@@ -79,15 +84,11 @@ def hra():
                     print(oddelovac)
             smycka = False
             end_time = time.perf_counter()
-            elapsed_time = end_time - start_time
-            print(f"Correct, you've guessed the right number in {pocet_pokusu} guesses and in time of {elapsed_time:.1f} seconds!")
-            
+            celkovy_cas = end_time - start_time
+            print(f"Correct, you've guessed the right number in {pocet_pokusu} guesses and in time of {celkovy_cas:.1f} seconds!")
         else:
             print("Špatně zadané číslo")
             print(oddelovac)
-
-while True:
-    hra()
     restart = input("Přejete si hru spustit znovu? Ano nebo ne? ")
     restart.lower
     if restart == "ne":
